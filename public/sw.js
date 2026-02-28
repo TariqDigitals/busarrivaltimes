@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bus-arrivals-sg-v1';
+const CACHE_NAME = 'bus-arrivals-sg-v2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -20,6 +20,32 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // For navigation requests (direct URL access, page refresh), use network-first
+  // and fall back to cached index.html so React Router can handle the route
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // If we get a valid response, cache it and return it
+          if (response && response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put('/', responseToCache);
+            });
+            return response;
+          }
+          // If server returns 404 or error, fall back to cached index.html
+          return caches.match('/').then((cached) => cached || response);
+        })
+        .catch(() => {
+          // If offline, serve cached index.html
+          return caches.match('/');
+        })
+    );
+    return;
+  }
+
+  // For non-navigation requests (assets, API calls), use cache-first strategy
   event.respondWith(
     caches.match(event.request)
       .then((response) => {

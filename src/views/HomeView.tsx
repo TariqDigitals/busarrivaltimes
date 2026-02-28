@@ -54,6 +54,14 @@ export function HomeView({
 
   return (
     <div className="space-y-6">
+      <div className="text-center px-4 pt-2 pb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+          Singapore Bus Arrival Times — Real-time Next Bus Timings
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Track live bus arrivals, find nearby stops, and plan your commute across Singapore
+        </p>
+      </div>
       {showNearby && (
         <section>
           <div className="flex items-center gap-2 mb-3 px-1">

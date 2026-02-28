@@ -8,12 +8,18 @@ import { Footer } from '../components/Footer';
 import { useAlarms } from '../hooks/useAlarms';
 import { useAlarmTemplates } from '../hooks/useAlarmTemplates';
 import { useTheme } from '../hooks/useTheme';
+import { useSEO } from '../hooks/useSEO';
 import { NotificationService } from '../utils/notificationService';
 import { AlarmChecker } from '../utils/alarmChecker';
 import { UserAlarm } from '../types';
 
 export const AlarmsPage = () => {
   const { theme, toggleTheme } = useTheme();
+
+  useSEO({
+    title: 'Bus Alarms - Set Bus Arrival Notifications | Bus Arrival Times SG',
+    description: 'Set up bus arrival alarms and get notified when your bus is arriving. Never miss your bus in Singapore again.',
+  });
   const { alarms, loading, createAlarm, updateAlarm, deleteAlarm, toggleAlarm, refetch } = useAlarms();
   const { templates } = useAlarmTemplates();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,96 +102,96 @@ export const AlarmsPage = () => {
               </div>
             </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border-l-4 border-blue-500">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Total Alarms</p>
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{totalAlarms}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border-l-4 border-blue-500">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Total Alarms</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">{totalAlarms}</p>
+                  </div>
+                  <Calendar className="text-blue-500" size={32} />
                 </div>
-                <Calendar className="text-blue-500" size={32} />
+              </div>
+
+              <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border-l-4 border-green-500">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Active Alarms</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">{activeAlarms}</p>
+                  </div>
+                  <Bell className="text-green-500" size={32} />
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border-l-4 border-purple-500">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Notifications</p>
+                    <p className={`text-lg font-bold ${notificationsEnabled ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                      {notificationsEnabled ? 'Enabled' : 'Disabled'}
+                    </p>
+                  </div>
+                  {notificationsEnabled ? (
+                    <Bell className="text-purple-500" size={32} />
+                  ) : (
+                    <BellOff className="text-red-500" size={32} />
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border-l-4 border-green-500">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Active Alarms</p>
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{activeAlarms}</p>
+            {!notificationsEnabled && (
+              <div className="bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-400 dark:border-orange-600 p-4 rounded-lg mb-6">
+                <div className="flex items-start gap-3">
+                  <BellOff className="text-orange-500 dark:text-orange-400 mt-1" size={24} />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-orange-900 dark:text-orange-300 mb-1">Notifications Disabled</h3>
+                    <p className="text-orange-800 dark:text-orange-400 text-sm mb-3">
+                      Enable browser notifications to receive bus arrival alerts.
+                    </p>
+                    <button
+                      onClick={requestNotificationPermission}
+                      className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium"
+                    >
+                      Enable Notifications
+                    </button>
+                  </div>
                 </div>
-                <Bell className="text-green-500" size={32} />
               </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border-l-4 border-purple-500">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Notifications</p>
-                  <p className={`text-lg font-bold ${notificationsEnabled ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                    {notificationsEnabled ? 'Enabled' : 'Disabled'}
-                  </p>
-                </div>
-                {notificationsEnabled ? (
-                  <Bell className="text-purple-500" size={32} />
-                ) : (
-                  <BellOff className="text-red-500" size={32} />
-                )}
-              </div>
-            </div>
+            )}
           </div>
 
-          {!notificationsEnabled && (
-            <div className="bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-400 dark:border-orange-600 p-4 rounded-lg mb-6">
-              <div className="flex items-start gap-3">
-                <BellOff className="text-orange-500 dark:text-orange-400 mt-1" size={24} />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-orange-900 dark:text-orange-300 mb-1">Notifications Disabled</h3>
-                  <p className="text-orange-800 dark:text-orange-400 text-sm mb-3">
-                    Enable browser notifications to receive bus arrival alerts.
-                  </p>
-                  <button
-                    onClick={requestNotificationPermission}
-                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium"
-                  >
-                    Enable Notifications
-                  </button>
-                </div>
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <LoadIndicator />
+            </div>
+          ) : alarms.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full mb-6">
+                <Bell size={48} className="text-gray-400 dark:text-gray-500" />
               </div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Alarms Yet</h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+                Create your first alarm to get notified when your bus is arriving. Never miss your ride again!
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
+                Click the floating button at the bottom right to get started
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {alarms.map(alarm => (
+                <AlarmCard
+                  key={alarm.id}
+                  alarm={alarm}
+                  onToggle={handleToggleAlarm}
+                  onEdit={handleEditAlarm}
+                  onDelete={handleDeleteAlarm}
+                />
+              ))}
             </div>
           )}
         </div>
-
-        {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <LoadIndicator />
-          </div>
-        ) : alarms.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full mb-6">
-              <Bell size={48} className="text-gray-400 dark:text-gray-500" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Alarms Yet</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
-              Create your first alarm to get notified when your bus is arriving. Never miss your ride again!
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
-              Click the floating button at the bottom right to get started
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {alarms.map(alarm => (
-              <AlarmCard
-                key={alarm.id}
-                alarm={alarm}
-                onToggle={handleToggleAlarm}
-                onEdit={handleEditAlarm}
-                onDelete={handleDeleteAlarm}
-              />
-            ))}
-          </div>
-        )}
-      </div>
 
         <AlarmModal
           isOpen={isModalOpen}

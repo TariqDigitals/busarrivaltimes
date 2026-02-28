@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import type { BusStop } from '../types';
 import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
@@ -13,6 +13,7 @@ import { useFavorites } from '../hooks/useFavorites';
 import { useTheme } from '../hooks/useTheme';
 import { usePersistedState } from '../hooks/usePersistedState';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { useSEO } from '../hooks/useSEO';
 
 export function HomePage() {
   const [selectedStop, setSelectedStop] = usePersistedState<BusStop | null>('selectedStop', null);
@@ -20,6 +21,12 @@ export function HomePage() {
   const searchInputRef = useRef<{ focus: () => void }>(null);
 
   const { theme, toggleTheme } = useTheme();
+
+  useSEO({
+    title: 'Singapore Bus Arrival Time | Real-time Next Bus Arrival Timings',
+    description: 'Get real-time bus arrival times for Singapore bus stops. Track your favorite stops, find nearby buses, and plan your journey efficiently.',
+  });
+
   const { stops, loading: stopsLoading } = useBusStops();
   const { services, loading: arrivalsLoading, error: arrivalsError, lastUpdated, refresh } = useBusArrivals(
     selectedStop?.code || null
@@ -27,14 +34,6 @@ export function HomePage() {
   const { latitude, longitude, loading: geoLoading, error: geoError, getCurrentPosition } = useGeolocation();
   const nearbyStops = useNearbyStops(stops, latitude, longitude);
   const { favorites, history, toggleFavorite, isFavorite, recordHistory } = useFavorites();
-
-  useEffect(() => {
-    document.title = 'Bus Arrival Times - Real-Time Singapore Bus Arrivals';
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Get real-time bus arrival times for Singapore bus stops. Track your favorite stops, find nearby buses, and plan your journey efficiently.');
-    }
-  }, []);
 
   const handleSelectStop = useCallback(
     (stop: BusStop) => {

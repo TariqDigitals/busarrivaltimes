@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabaseClient';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { useTheme } from '../hooks/useTheme';
+import { useSEO } from '../hooks/useSEO';
 
 interface BlogPost {
   id: string;
@@ -21,6 +22,11 @@ interface BlogPost {
 
 export default function BlogPage() {
   const { theme, toggleTheme } = useTheme();
+
+  useSEO({
+    title: 'Blog - Bus Arrival Times Singapore | Tips & Updates',
+    description: 'Read the latest blog posts about Singapore public transport, bus routes, and commuting tips from Bus Arrival Times.',
+  });
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -80,11 +86,10 @@ export default function BlogPage() {
             <div className="flex flex-wrap gap-2 justify-center mb-8">
               <button
                 onClick={() => setSelectedTag(null)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  !selectedTag
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${!selectedTag
                     ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
+                  }`}
               >
                 All Posts
               </button>
@@ -92,11 +97,10 @@ export default function BlogPage() {
                 <button
                   key={tag}
                   onClick={() => setSelectedTag(tag)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedTag === tag
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedTag === tag
                       ? 'bg-blue-600 text-white'
                       : 'bg-white text-gray-700 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   {tag}
                 </button>

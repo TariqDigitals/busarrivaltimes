@@ -27,7 +27,7 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
               <Bus className="w-7 h-7" />
             </div>
             <div>
-              <h1 className="text-lg sm:text-2xl font-bold tracking-tight leading-tight">Bus Arrival Times in Singapore</h1>
+              <span className="text-lg sm:text-2xl font-bold tracking-tight leading-tight">Bus Arrival Times in Singapore</span>
               <p className="text-xs text-white/90">Check Real-time Singapore Bus Arrivals</p>
             </div>
           </Link>

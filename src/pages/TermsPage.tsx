@@ -1,22 +1,18 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { TermsView } from '../views/TermsView';
 import { useTheme } from '../hooks/useTheme';
+import { useSEO } from '../hooks/useSEO';
 
 export function TermsPage() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    document.title = 'Terms & Conditions - Bus Arrival Times';
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Read the terms and conditions for using Bus Arrival Times service. Understand your rights and responsibilities.');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  useSEO({
+    title: 'Terms & Conditions - Bus Arrival Times Singapore',
+    description: 'Read the terms and conditions for using Bus Arrival Times service. Understand your rights and responsibilities.',
+  });
 
   const handleBack = () => {
     navigate('/');

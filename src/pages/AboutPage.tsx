@@ -1,22 +1,18 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { AboutView } from '../views/AboutView';
 import { useTheme } from '../hooks/useTheme';
+import { useSEO } from '../hooks/useSEO';
 
 export function AboutPage() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    document.title = 'About Us - Bus Arrival Times';
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Learn about Bus Arrival Times - Singapore\'s most reliable real-time bus tracking service. Discover our mission to make public transport easier.');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  useSEO({
+    title: 'About Us - Bus Arrival Times Singapore',
+    description: 'Learn about Bus Arrival Times - Singapore\'s most reliable real-time bus tracking service. Discover our mission to make public transport easier.',
+  });
 
   const handleBack = () => {
     navigate('/');
