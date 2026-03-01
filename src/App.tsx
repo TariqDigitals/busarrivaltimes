@@ -10,24 +10,30 @@ import BlogPostPage from './pages/BlogPostPage';
 import BlogAdminPage from './pages/BlogAdminPage';
 import BlogEditorPage from './pages/BlogEditorPage';
 import BlogLoginPage from './pages/BlogLoginPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { InstallPrompt } from './components/InstallPrompt';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/alarms" element={<AlarmsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/login" element={<BlogLoginPage />} />
-        <Route path="/blog/:slug" element={<BlogPostPage />} />
-        <Route path="/blog/admin" element={<BlogAdminPage />} />
-        <Route path="/blog/admin/:id" element={<BlogEditorPage />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/alarms" element={<AlarmsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/login" element={<BlogLoginPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/blog/admin" element={<BlogAdminPage />} />
+          <Route path="/blog/admin/:id" element={<BlogEditorPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+      <InstallPrompt />
+    </>
   );
 }
 

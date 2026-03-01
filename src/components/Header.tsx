@@ -1,4 +1,4 @@
-import { Bus, Moon, Sun, Menu, X, Bell } from 'lucide-react';
+import { Moon, Sun, Menu, X, Bell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -23,10 +23,12 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
       <div className="max-w-5xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 hover:scale-105 hover:opacity-90 transition-all duration-200 cursor-pointer group">
-            <div className="bg-white/20 backdrop-blur-sm p-2.5 rounded-xl group-hover:bg-white/30 transition-all">
-              <Bus className="w-7 h-7" />
-            </div>
-            <div>
+            <img
+              src="/logo.png"
+              alt="Bus Arrival Times"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl"
+            />
+            <div className="hidden sm:block">
               <span className="text-lg sm:text-2xl font-bold tracking-tight leading-tight">Bus Arrival Times in Singapore</span>
               <p className="text-xs text-white/90">Check Real-time Singapore Bus Arrivals</p>
             </div>
